@@ -1,0 +1,8 @@
+# Ignore all SSH public key files
+*.pub
+
+# Ignore everything within the .vagrant directory
+.vagrant/
+
+# Ignore the guest addition file for VB
+VBoxGuestAdditions_7.0.10.iso
