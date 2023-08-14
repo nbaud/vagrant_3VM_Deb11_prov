@@ -13,3 +13,5 @@ vagrant up w1 w2
 # Like this, the copy of the ssh keys from the master to the worker nodes will work fine with vagrant
 
 Also, make sure to download the file for guest addition and to install it with the code of vagrant, not with the automatic update from virtualbox, as it is buggy and will cause issues.
+
+Overall, a lot of dependencies and issues are taken care of in the background, and a fresh setup is created for playing around with a little cluster that can be controlled by Ansible, and for instance create a Kubernetes cluster.
