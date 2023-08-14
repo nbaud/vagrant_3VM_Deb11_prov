@@ -1,8 +1,10 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-Vagrant.configure("2") do |config|
+# Read the local SSH public key
+ssh_pub_key = File.readlines("#{Dir.home}/.ssh/id_ed25519.pub").first.strip
 
+Vagrant.configure("2") do |config|
   # Base box
   config.vm.box = "debian/bullseye64"
   config.vm.box_check_update = false
@@ -62,6 +64,7 @@ Vagrant.configure("2") do |config|
             # Copy the public key to the Vagrant directory
             cp /home/vagrant/.ssh/id_ed25519.pub /vagrant/master_id_ed25519.pub
           fi
+          echo "#{ssh_pub_key}" >> /home/vagrant/.ssh/authorized_keys
         SHELL
 
         # Install latest Ansible on master
@@ -75,8 +78,10 @@ Vagrant.configure("2") do |config|
         SHELL
       else
         # Worker nodes
-        node.vm.provision "file", source: "master_id_ed25519.pub", destination: "/home/vagrant/.ssh/authorized_keys"
+        node.vm.provision "file", source: "master_id_ed25519.pub", destination: "/home/vagrant/.ssh/master_id_ed25519.pub"
         node.vm.provision "shell", inline: <<-SHELL
+          cat /home/vagrant/.ssh/master_id_ed25519.pub >> /home/vagrant/.ssh/authorized_keys
+          echo "#{ssh_pub_key}" >> /home/vagrant/.ssh/authorized_keys
           chmod 600 /home/vagrant/.ssh/authorized_keys
         SHELL
       end
