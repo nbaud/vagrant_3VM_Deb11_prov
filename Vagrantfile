@@ -38,7 +38,7 @@ Vagrant.configure("2") do |config|
       # Setting up the locales otherwise ansible doesnt work fine from the get go 
         sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen
         locale-gen en_US.UTF-8
-        update-locale LANG=en_US.UTF-8
+        update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
       SHELL
 
       # Install VirtualBox Guest Additions
